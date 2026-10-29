@@ -17,11 +17,11 @@ INSERT INTO Donors (TCKN, DonorName, Surname, BirthDate, BloodGroup, Phone, Emai
 ('12345678901', 'Ahmet', 'Yilmaz', '1995-05-12', 'A+', '05321112233', 'ahmet@example.com', 'Volunteer'),
 ('98765432109', 'Mehmet', 'Demir', '1990-08-20', 'O+', '05334445566', 'mehmet@example.com', 'Replacement');
 
-INSERT INTO Donations (DonationDate, Units, Notes, DonorID, HospitalID) VALUES 
-(GETDATE(), 1, 'Routine donation', 1, 1),
-(GETDATE(), 1, 'Emergency operation request', 2, 2),
-(GETDATE(), 1, 'First time donor', 3, 1),
-(GETDATE(), 1, 'Regular donation', 4, 3);
+INSERT INTO Donations (DonationDate, Units, Notes, DonorTCKN, HospitalID) VALUES 
+(GETDATE(), 1, 'Routine donation', '55544433322', 1),
+(GETDATE(), 1, 'Emergency operation request', '77788899911', 2),
+(GETDATE(), 1, 'First time donor', '12345678901', 1),
+(GETDATE(), 1, 'Regular donation', '98765432109', 3);
 
 INSERT INTO BloodInventory (HospitalID, BloodGroup, Units, CriticalLevel, LastUpdated) VALUES 
 (1, 'A+', 15, 5, GETDATE()),
@@ -33,7 +33,7 @@ INSERT INTO BloodInventory (HospitalID, BloodGroup, Units, CriticalLevel, LastUp
 INSERT INTO BloodUnit (BloodGroup, ExpirationDate, TestStatus, UnitStatus, ComponentType, DonationID) VALUES 
 ('AB+', '2026-12-10', 'Tested', 'Available', 'Platelets', 1),
 ('O-', '2026-11-30', 'Tested', 'Available', 'Red_Cells', 2),
-('A+', '2026-12-01', 'Tested', 'Available', 'Red_Cells', 3),
+('A+', '2026-12-01', 'Tested', 'Used', 'Red_Cells', 3),
 ('O+', '2026-11-25', 'Tested', 'Available', 'Plasma', 4);
 
 INSERT INTO UnitUsage (UsageDate, Department, PatientID, UnitID) VALUES 

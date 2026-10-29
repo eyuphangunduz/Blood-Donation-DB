@@ -22,7 +22,7 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE sp_RecordDonation
-    @DonorID      INT,
+    @DonorTCKN    CHAR(11),
     @HospitalID   INT,
     @DonationDate DATE,
     @Units        INT,
@@ -31,8 +31,8 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    INSERT INTO Donations (DonorID, HospitalID, DonationDate, Units, Notes)
-    VALUES (@DonorID, @HospitalID, @DonationDate, @Units, @Notes);
+    INSERT INTO Donations (DonorTCKN, HospitalID, DonationDate, Units, Notes)
+    VALUES (@DonorTCKN, @HospitalID, @DonationDate, @Units, @Notes);
 
     PRINT 'Donation recorded successfully.';
 END;

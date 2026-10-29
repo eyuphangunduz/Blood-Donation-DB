@@ -14,14 +14,14 @@ BEGIN
     FROM BloodInventory AS bi
     JOIN (SELECT i.HospitalID, d.BloodGroup, SUM(i.Units) AS AddedUnits
           FROM inserted AS i
-          JOIN Donors AS d ON d.DonorID = i.DonorID
+          JOIN Donors AS d ON d.TCKN = i.DonorTCKN
           GROUP BY i.HospitalID, d.BloodGroup) AS n
       ON n.HospitalID = bi.HospitalID AND n.BloodGroup = bi.BloodGroup;
 
     INSERT INTO BloodInventory (HospitalID, BloodGroup, Units, CriticalLevel, LastUpdated)
     SELECT i.HospitalID, d.BloodGroup, SUM(i.Units), 1, GETDATE()
     FROM inserted AS i
-    JOIN Donors AS d ON d.DonorID = i.DonorID
+    JOIN Donors AS d ON d.TCKN = i.DonorTCKN
     WHERE NOT EXISTS (SELECT 1 FROM BloodInventory AS bi
                       WHERE bi.HospitalID = i.HospitalID AND bi.BloodGroup = d.BloodGroup)
     GROUP BY i.HospitalID, d.BloodGroup;

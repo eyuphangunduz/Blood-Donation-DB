@@ -18,10 +18,10 @@ SELECT d.TCKN,
        h.HospitalName,
        c.CityName
 FROM Donors    AS d
-JOIN Donations AS dn ON dn.DonorID = d.DonorID
+JOIN Donations AS dn ON dn.DonorTCKN = d.TCKN
 JOIN Hospitals AS h  ON h.HospitalID = dn.HospitalID
 JOIN Cities    AS c  ON c.CityID = h.CityID
-ORDER BY d.DonorID, dn.DonationDate;
+ORDER BY d.TCKN, dn.DonationDate;
 
 -- 3. Blood group distribution analysis
 SELECT BloodGroup,
