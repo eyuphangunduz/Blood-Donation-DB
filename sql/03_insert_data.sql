@@ -68,9 +68,9 @@ GO
 INSERT INTO Hospitals (HospitalName, hospitalAddress, Phone, HospitalType, CityID)
 SELECT HospitalName, Address, Phone, HospitalType, CityID
 FROM (VALUES
- ( 1, 'Cerrahpasa Medical Faculty Hospital', 'University', 34, 'Fatih, Istanbul',                 '02124143000'),
- ( 2, 'Ankara City Hospital',                'State',       6, 'Cankaya, Ankara',                 '03125524300'),
- ( 3, 'Izmir Private Kent Hospital',         'Private',    35, 'Cigli, Izmir',                    '02323867050'),
+ ( 1, 'Cerrahpasa Medical Faculty Hospital', 'University', 34, 'Hospital Street No: 1, Istanbul',  '02120000001'),
+ ( 2, 'Ankara City Hospital',                'State',       6, 'Hospital Street No: 2, Ankara',    '03120000002'),
+ ( 3, 'Izmir Private Kent Hospital',         'Private',    35, 'Hospital Street No: 3, Izmir',     '02320000003'),
  ( 4, 'Istanbul State Hospital 1',           'State',      34, 'Hospital Street No: 4, Istanbul',  '02120000004'),
  ( 5, 'Istanbul State Hospital 2',           'State',      34, 'Hospital Street No: 5, Istanbul',  '02160000005'),
  ( 6, 'Istanbul Private Hospital',           'Private',    34, 'Hospital Street No: 6, Istanbul',  '02160000006'),
