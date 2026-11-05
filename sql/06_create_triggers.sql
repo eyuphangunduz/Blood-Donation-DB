@@ -40,6 +40,6 @@ BEGIN
     FROM BloodUnit AS bu
     INNER JOIN inserted AS i ON bu.UnitID = i.UnitID
     WHERE bu.ExpirationDate < CAST(GETDATE() AS DATE)
-      AND bu.UnitStatus <> 'Expired';
+      AND bu.UnitStatus IN ('Available', 'Reserved');
 END;
 GO
