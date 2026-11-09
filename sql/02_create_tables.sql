@@ -50,10 +50,13 @@ CREATE TABLE BloodUnit (
     UnitID INT IDENTITY(1,1) PRIMARY KEY,
     BloodGroup VARCHAR(5) NOT NULL CHECK (BloodGroup IN ('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-')),
     ExpirationDate DATE NOT NULL,
-    TestStatus VARCHAR(30) NOT NULL,
-    UnitStatus VARCHAR(20) NOT NULL,
+    TestStatus VARCHAR(30) NOT NULL CHECK (TestStatus IN ('Pending', 'Tested', 'Failed')),
+    UnitStatus VARCHAR(20) NOT NULL CHECK (UnitStatus IN ('Available', 'Reserved', 'Used', 'Expired', 'Discarded')),
     ComponentType VARCHAR(30) NOT NULL CHECK (ComponentType IN ('Red_Cells', 'Plasma', 'Platelets')),
-    DonationID INT NOT NULL FOREIGN KEY REFERENCES Donations(DonationID)
+    DonationID INT NOT NULL FOREIGN KEY REFERENCES Donations(DonationID),
+    CONSTRAINT CK_BloodUnit_FailedDiscarded CHECK (TestStatus <> 'Failed' OR UnitStatus = 'Discarded'),
+    CONSTRAINT CK_BloodUnit_UsedTested CHECK (UnitStatus <> 'Used' OR TestStatus = 'Tested'),
+    CONSTRAINT UQ_BloodUnit_Component UNIQUE (DonationID, ComponentType)
 );
 
 CREATE TABLE UnitUsage (

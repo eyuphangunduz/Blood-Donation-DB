@@ -43,3 +43,40 @@ BEGIN
       AND bu.UnitStatus IN ('Available', 'Reserved');
 END;
 GO
+
+CREATE OR ALTER TRIGGER trg_CheckDonationRules
+ON Donations
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT 1 FROM inserted i
+               JOIN Donors d ON d.TCKN = i.DonorTCKN
+               WHERE i.DonationDate <  DATEADD(YEAR, 18, d.BirthDate)
+                  OR i.DonationDate >= DATEADD(YEAR, 66, d.BirthDate))
+    BEGIN
+        ROLLBACK;
+        THROW 50001, 'Donor must be between 18 and 65 years old.', 1;
+    END;
+
+    IF EXISTS (SELECT 1 FROM inserted i
+               JOIN Donations dn ON dn.DonorTCKN = i.DonorTCKN AND dn.DonationID <> i.DonationID
+               WHERE ABS(DATEDIFF(DAY, dn.DonationDate, i.DonationDate)) < 90)
+    BEGIN
+        ROLLBACK;
+        THROW 50002, 'At least 90 days must pass between two donations.', 1;
+    END;
+
+    IF EXISTS (SELECT 1 FROM inserted i
+               JOIN Donations dn ON dn.DonorTCKN = i.DonorTCKN
+               WHERE dn.DonationDate >  DATEADD(YEAR, -1, i.DonationDate)
+                 AND dn.DonationDate <= i.DonationDate
+               GROUP BY i.DonationID
+               HAVING COUNT(*) > 4)
+    BEGIN
+        ROLLBACK;
+        THROW 50003, 'A donor can donate at most 4 times in 12 months.', 1;
+    END;
+END;
+GO
